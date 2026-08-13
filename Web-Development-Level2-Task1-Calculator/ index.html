@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OIBSIP Calculator</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+    body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#1e293b,#0f172a);}
+    .calculator{background:#0f172a;padding:25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.5);width:320px;}
+    .display{background:#1e293b;color:#fff;font-size:2.5rem;padding:20px;border-radius:12px;text-align:right;margin-bottom:20px;overflow:hidden;min-height:80px;}
+    .buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+    button{border:none;border-radius:12px;padding:20px;font-size:1.2rem;font-weight:600;cursor:pointer;transition:0.2s;}
+    button:active{transform:scale(0.95);}
+    .num{background:#334155;color:#fff;} .num:hover{background:#475569;}
+    .operator{background:#2563eb;color:#fff;} .operator:hover{background:#1d4ed8;}
+    .equals{background:#f97316;color:#fff;grid-row:span 2;} .equals:hover{background:#ea580c;}
+    .clear{background:#dc2626;color:#fff;} .clear:hover{background:#b91c1c;}
+    .zero{grid-column:span 2;}
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" data-action="clear">C</button>
+      <button class="operator" data-action="backspace">⌫</button>
+      <button class="operator" data-action="divide">÷</button>
+      <button class="operator" data-action="multiply">×</button>
+      
+      <button class="num" data-number="7">7</button>
+      <button class="num" data-number="8">8</button>
+      <button class="num" data-number="9">9</button>
+      <button class="operator" data-action="subtract">-</button>
+      
+      <button class="num" data-number="4">4</button>
+      <button class="num" data-number="5">5</button>
+      <button class="num" data-number="6">6</button>
+      <button class="operator" data-action="add">+</button>
+      
+      <button class="num" data-number="1">1</button>
+      <button class="num" data-number="2">2</button>
+      <button class="num" data-number="3">3</button>
+      <button class="equals" data-action="equals">=</button>
+      
+      <button class="num zero" data-number="0">0</button>
+      <button class="num" data-number=".">.</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    let currentInput = '0';
+    let previousInput = '';
+    let operator = null;
+    let shouldResetDisplay = false;
+
+    function updateDisplay(){
+      display.innerText = currentInput;
+    }
+
+    function inputNumber(num){
+      if(shouldResetDisplay){
+        currentInput = '0';
+        shouldResetDisplay = false;
+      }
+      if(num === '.' && currentInput.includes('.')) return;
+      currentInput = currentInput === '0' ? num : currentInput + num;
+    }
+
+    function handleOperator(nextOperator){
+      let inputValue = parseFloat(currentInput);
+      if(operator && !shouldResetDisplay){
+        let result = calculate(previousInput, inputValue, operator);
+        currentInput = String(result);
+        previousInput = result;
+      } else {
+        previousInput = inputValue;
+      }
+      shouldResetDisplay = true;
+      operator = nextOperator;
+    }
+
+    function calculate(prev, curr, op){
+      switch(op){
+        case 'add': return prev + curr;
+        case 'subtract': return prev - curr;
+        case 'multiply': return prev * curr;
+        case 'divide': 
+          if(curr === 0){
+            alert("❌ Error: Cannot divide by zero");
+            return prev;
+          }
+          return prev / curr;
+        default: return curr;
+      }
+    }
+
+    function handleEquals(){
+      if(operator === null || shouldResetDisplay) return;
+      let result = calculate(previousInput, parseFloat(currentInput), operator);
+      currentInput = String(result.toFixed(4));
+      operator = null;
+      previousInput = '';
+      shouldResetDisplay = true;
+    }
+
+    function clearAll(){
+      currentInput = '0';
+      previousInput = '';
+      operator = null;
+    }
+
+    function backspace(){
+      currentInput = currentInput.length > 1 ? currentInput.slice(0, -1) : '0';
+    }
+
+    // Event listeners - NO onclick in HTML
+    document.querySelectorAll('[data-number]').forEach(button => {
+      button.addEventListener('click', () => {
+        inputNumber(button.dataset.number);
+        updateDisplay();
+      });
+    });
+
+    document.querySelectorAll('[data-action]').forEach(button => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.action;
+        if(action === 'clear') clearAll();
+        if(action === 'backspace') backspace();
+        if(action === 'equals') handleEquals();
+        if(['add','subtract','multiply','divide'].includes(action)) handleOperator(action);
+        updateDisplay();
+      });
+    });
+  </script>
+</body>
+</html>
