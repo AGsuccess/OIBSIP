@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do Web App - OIBSIP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body{background:linear-gradient(135deg,#2563eb,#1d4ed8);min-height:100vh;padding:20px;}
+    .container{max-width:700px;margin:40px auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+    h1{text-align:center;color:#1e293b;margin-bottom:20px;}
+    
+    .add-task{display:flex;gap:10px;margin-bottom:30px;}
+    .add-task input{flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:8px;font-size:1rem;}
+    .add-task button{background:#f97316;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;}
+    .add-task button:hover{background:#ea580c;}
+
+    .task-section{margin-bottom:30px;}
+    .task-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
+    .task-header h2{font-size:1.3rem;color:#334155;}
+    .count{background:#eff6ff;color:#2563eb;padding:4px 12px;border-radius:20px;font-size:0.9rem;font-weight:600;}
+    
+    .task-list{list-style:none;}
+    .task-item{display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:15px;border-radius:10px;margin-bottom:10px;gap:10px;}
+    .task-item.completed{text-decoration:line-through;color:#94a3b8;opacity:0.7;}
+    .task-text{flex:1;}
+    .task-time{font-size:0.8rem;color:#64748b;display:block;}
+    .task-actions{display:flex;gap:8px;}
+    .task-actions button{border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.9rem;}
+    .btn-complete{background:#22c55e;color:#fff;}
+    .btn-edit{background:#2563eb;color:#fff;}
+    .btn-delete{background:#dc2626;color:#fff;}
+    
+    .empty-state{text-align:center;color:#94a3b8;padding:20px;font-style:italic;}
+    .edit-input{flex:1;padding:8px;border:2px solid #2563eb;border-radius:6px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 My To-Do App</h1>
+    
+    <div class="add-task">
+      <input type="text" id="taskInput" placeholder="Add a new task...">
+      <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <div class="task-section">
+      <div class="task-header">
+        <h2>Pending Tasks</h2>
+        <span class="count" id="pendingCount">0 pending</span>
+      </div>
+      <ul class="task-list" id="pendingList"></ul>
+      <div class="empty-state" id="pendingEmpty">No pending tasks. Add one!</div>
+    </div>
+
+    <div class="task-section">
+      <div class="task-header">
+        <h2>Completed Tasks</h2>
+        <span class="count" id="completedCount">0 completed</span>
+      </div>
+      <ul class="task-list" id="completedList"></ul>
+      <div class="empty-state" id="completedEmpty">No completed tasks yet.</div>
+    </div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function saveTasks(){
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function addTask(){
+      const input = document.getElementById('taskInput');
+      const text = input.value.trim();
+      if(text === '') return alert('Please enter a task');
+      
+      tasks.push({
+        id: Date.now(),
+        text: text,
+        completed: false,
+        createdAt: new Date().toLocaleString()
+      });
+      input.value = '';
+      saveTasks();
+      renderTasks();
+    }
+
+    function toggleComplete(id){
+      tasks = tasks.map(task => {
+        if(task.id === id){
+          task.completed = !task.completed;
+          task.completedAt = task.completed ? new Date().toLocaleString() : null;
+        }
+        return task;
+      });
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteTask(id){
+      if(confirm('Delete this task?')){
+        tasks = tasks.filter(task => task.id !== id);
+        saveTasks();
+        renderTasks();
+      }
+    }
+
+    function editTask(id){
+      const taskItem = document.getElementById(`task-${id}`);
+      const task = tasks.find(t => t.id === id);
+      taskItem.innerHTML = `
+        <input type="text" class="edit-input" value="${task.text}" id="editInput-${id}">
+        <div class="task-actions">
+          <button class="btn-complete" onclick="saveEdit(${id})">Save</button>
+          <button class="btn-delete" onclick="renderTasks()">Cancel</button>
+        </div>
+      `;
+    }
+
+    function saveEdit(id){
+      const newText = document.getElementById(`editInput-${id}`).value.trim();
+      if(newText === '') return alert('Task cannot be empty');
+      tasks = tasks.map(task => task.id === id ? {...task, text: newText} : task);
+      saveTasks();
+      renderTasks();
+    }
+
+    function renderTasks(){
+      const pendingList = document.getElementById('pendingList');
+      const completedList = document.getElementById('completedList');
+      const pendingTasks = tasks.filter(t => !t.completed);
+      const completedTasks = tasks.filter(t => t.completed);
+
+      pendingList.innerHTML = '';
+      completedList.innerHTML = '';
+
+      pendingTasks.forEach(task => {
+        pendingList.innerHTML += `
+          <li class="task-item" id="task-${task.id}">
+            <div class="task-text">
+              ${task.text}
+              <span class="task-time">Added: ${task.createdAt}</span>
+            </div>
+            <div class="task-actions">
+              <button class="btn-complete" onclick="toggleComplete(${task.id})">✓</button>
+              <button class="btn-edit" onclick="editTask(${task.id})">Edit</button>
+              <button class="btn-delete" onclick="deleteTask(${task.id})">Delete</button>
+            </div>
+          </li>
+        `;
+      });
+
+      completedTasks.forEach(task => {
+        completedList.innerHTML += `
+          <li class="task-item completed" id="task-${task.id}">
+            <div class="task-text">
+              ${task.text}
+              <span class="task-time">Completed: ${task.completedAt}</span>
+            </div>
+            <div class="task-actions">
+              <button class="btn-complete" onclick="toggleComplete(${task.id})">Undo</button>
+              <button class="btn-delete" onclick="deleteTask(${task.id})">Delete</button>
+            </div>
+          </li>
+        `;
+      });
+
+      document.getElementById('pendingCount').innerText = `${pendingTasks.length} pending`;
+      document.getElementById('completedCount').innerText = `${completedTasks.length} completed`;
+      document.getElementById('pendingEmpty').style.display = pendingTasks.length ? 'none' : 'block';
+      document.getElementById('completedEmpty').style.display = completedTasks.length ? 'none' : 'block';
+    }
+
+    // Add task on Enter key
+    document.getElementById('taskInput').addEventListener('keypress', e => {
+      if(e.key === 'Enter') addTask();
+    });
+
+    renderTasks();
+  </script>
+</body>
+</html>
