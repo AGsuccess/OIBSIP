@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter - OIBSIP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#2563eb,#1d4ed8);padding:20px;}
+   .converter{background:#fff;padding:40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.2);width:100%;max-width:450px;text-align:center;}
+    h1{color:#1e293b;margin-bottom:10px;font-size:1.8rem;}
+    p.subtitle{color:#64748b;margin-bottom:30px;}
+   .input-group{margin-bottom:20px;text-align:left;}
+    label{display:block;margin-bottom:8px;font-weight:600;color:#334155;}
+    input,select{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:8px;font-size:1rem;outline:none;}
+    input:focus,select:focus{border-color:#2563eb;}
+    button{background:#f97316;color:#fff;border:none;padding:14px;width:100%;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;margin-top:10px;}
+    button:hover{background:#ea580c;}
+   .error{color:#dc2626;background:#fee2e2;padding:10px;border-radius:8px;margin-top:15px;display:none;font-weight:600;}
+   .results{margin-top:25px;text-align:left;display:none;}
+   .result-card{background:#eff6ff;padding:15px;border-radius:8px;margin-bottom:10px;font-size:1.1rem;}
+   .result-card span{font-weight:700;color:#2563eb;}
+  </style>
+</head>
+<body>
+  <div class="converter">
+    <h1>🌡️ Temperature Converter</h1>
+    <p class="subtitle">OIBSIP Task 3</p>
+    
+    <div class="input-group">
+      <label>Enter Temperature</label>
+      <input type="number" id="tempInput" placeholder="e.g. 25">
+    </div>
+
+    <div class="input-group">
+      <label>Select Input Unit</label>
+      <select id="inputUnit">
+        <option value="celsius">Celsius °C</option>
+        <option value="fahrenheit">Fahrenheit °F</option>
+        <option value="kelvin">Kelvin K</option>
+      </select>
+    </div>
+
+    <button onclick="convertTemp()">Convert</button>
+    <div class="error" id="errorBox"></div>
+
+    <div class="results" id="resultsBox">
+      <div class="result-card">Celsius: <span id="celsiusResult"></span> °C</div>
+      <div class="result-card">Fahrenheit: <span id="fahrenheitResult"></span> °F</div>
+      <div class="result-card">Kelvin: <span id="kelvinResult"></span> K</div>
+    </div>
+  </div>
+
+  <script>
+    function convertTemp(){
+      let temp = parseFloat(document.getElementById('tempInput').value);
+      let unit = document.getElementById('inputUnit').value;
+      let errorBox = document.getElementById('errorBox');
+      let resultsBox = document.getElementById('resultsBox');
+
+      errorBox.style.display = 'none';
+      resultsBox.style.display = 'none';
+
+      // 1. Numeric validation
+      if(isNaN(temp) || temp === ''){
+        errorBox.innerText = "❌ Please enter a valid number";
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // 2. Convert to Celsius first
+      let celsius;
+      if(unit === "celsius") celsius = temp;
+      if(unit === "fahrenheit") celsius = (temp - 32) * 5/9;
+      if(unit === "kelvin") celsius = temp - 273.15;
+
+      // 3. Absolute zero check
+      if(celsius < -273.15){
+        errorBox.innerText = "❌ Temperature cannot be below Absolute Zero -273.15°C";
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // 4. Calculate all
+      let fahrenheit = (celsius * 9/5) + 32;
+      let kelvin = celsius + 273.15;
+
+      // 5. Display all results
+      document.getElementById('celsiusResult').innerText = celsius.toFixed(2);
+      document.getElementById('fahrenheitResult').innerText = fahrenheit.toFixed(2);
+      document.getElementById('kelvinResult').innerText = kelvin.toFixed(2);
+      resultsBox.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
