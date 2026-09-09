@@ -3,94 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Temperature Converter - OIBSIP</title>
+  <title>TASK 3 | Temperature Converter</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#2563eb,#1d4ed8);padding:20px;}
-   .converter{background:#fff;padding:40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.2);width:100%;max-width:450px;text-align:center;}
-    h1{color:#1e293b;margin-bottom:10px;font-size:1.8rem;}
-    p.subtitle{color:#64748b;margin-bottom:30px;}
-   .input-group{margin-bottom:20px;text-align:left;}
-    label{display:block;margin-bottom:8px;font-weight:600;color:#334155;}
-    input,select{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:8px;font-size:1rem;outline:none;}
-    input:focus,select:focus{border-color:#2563eb;}
-    button{background:#f97316;color:#fff;border:none;padding:14px;width:100%;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;margin-top:10px;}
-    button:hover{background:#ea580c;}
-   .error{color:#dc2626;background:#fee2e2;padding:10px;border-radius:8px;margin-top:15px;display:none;font-weight:600;}
-   .results{margin-top:25px;text-align:left;display:none;}
-   .result-card{background:#eff6ff;padding:15px;border-radius:8px;margin-bottom:10px;font-size:1.1rem;}
-   .result-card span{font-weight:700;color:#2563eb;}
+    :root {
+      --bg: #0a0a0a;
+      --card: #111;
+      --accent: #00ff88;
+      --text: #ffffff;
+      --gray: #a0a0a0;
+      --error: #ff4d4d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { 
+      background: var(--bg); 
+      color: var(--text); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      background: var(--card);
+      padding: 40px 30px;
+      border-radius: 16px;
+      border: 1px solid #222;
+      box-shadow: 0 0 30px rgba(0,255,136,0.1);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+    
+    h1 { font-size: 2rem; margin-bottom: 10px; }
+    h1 span { color: var(--accent); }
+    .subtitle { color: var(--gray); margin-bottom: 30px; font-size: 0.9rem; }
+
+    .input-group { margin-bottom: 20px; text-align: left; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--gray); }
+    
+    input, select {
+      width: 100%;
+      padding: 14px;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+    
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+    
+    .result-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 10px;
+      border: 1px solid #333;
+      display: none; /* Hidden until convert */
+    }
+    .result-box h3 { color: var(--accent); margin-bottom: 15px; }
+    .result-item { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1.1rem; }
+    
+    .error {
+      color: var(--error);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="converter">
-    <h1>🌡️ Temperature Converter</h1>
-    <p class="subtitle">OIBSIP Task 3</p>
-    
+
+  <div class="container">
+    <h1>Temp <span>Converter</span></h1>
+    <p class="subtitle">Convert between Celsius, Fahrenheit & Kelvin</p>
+
     <div class="input-group">
-      <label>Enter Temperature</label>
+      <label for="tempInput">Enter Temperature</label>
       <input type="number" id="tempInput" placeholder="e.g. 25">
+      <p class="error" id="errorMsg"></p>
     </div>
 
     <div class="input-group">
-      <label>Select Input Unit</label>
+      <label for="inputUnit">From</label>
       <select id="inputUnit">
-        <option value="celsius">Celsius °C</option>
-        <option value="fahrenheit">Fahrenheit °F</option>
-        <option value="kelvin">Kelvin K</option>
+        <option value="C">Celsius °C</option>
+        <option value="F">Fahrenheit °F</option>
+        <option value="K">Kelvin K</option>
       </select>
     </div>
 
-    <button onclick="convertTemp()">Convert</button>
-    <div class="error" id="errorBox"></div>
+    <button class="btn" onclick="convertTemp()">Convert</button>
 
-    <div class="results" id="resultsBox">
-      <div class="result-card">Celsius: <span id="celsiusResult"></span> °C</div>
-      <div class="result-card">Fahrenheit: <span id="fahrenheitResult"></span> °F</div>
-      <div class="result-card">Kelvin: <span id="kelvinResult"></span> K</div>
+    <div class="result-box" id="resultBox">
+      <h3>Converted Results</h3>
+      <div class="result-item"><span>Celsius:</span> <span id="celsiusResult">0 °C</span></div>
+      <div class="result-item"><span>Fahrenheit:</span> <span id="fahrenheitResult">0 °F</span></div>
+      <div class="result-item"><span>Kelvin:</span> <span id="kelvinResult">0 K</span></div>
     </div>
   </div>
 
   <script>
-    function convertTemp(){
-      let temp = parseFloat(document.getElementById('tempInput').value);
-      let unit = document.getElementById('inputUnit').value;
-      let errorBox = document.getElementById('errorBox');
-      let resultsBox = document.getElementById('resultsBox');
+    function convertTemp() {
+      const input = document.getElementById('tempInput').value;
+      const unit = document.getElementById('inputUnit').value;
+      const errorMsg = document.getElementById('errorMsg');
+      const resultBox = document.getElementById('resultBox');
+      
+      errorMsg.style.display = 'none';
+      resultBox.style.display = 'none';
 
-      errorBox.style.display = 'none';
-      resultsBox.style.display = 'none';
-
-      // 1. Numeric validation
-      if(isNaN(temp) || temp === ''){
-        errorBox.innerText = "❌ Please enter a valid number";
-        errorBox.style.display = 'block';
+      // 1. VALIDATION: Numeric check
+      if (input === '' || isNaN(input)) {
+        errorMsg.innerText = '⚠️ Please enter a valid number';
+        errorMsg.style.display = 'block';
         return;
       }
 
-      // 2. Convert to Celsius first
-      let celsius;
-      if(unit === "celsius") celsius = temp;
-      if(unit === "fahrenheit") celsius = (temp - 32) * 5/9;
-      if(unit === "kelvin") celsius = temp - 273.15;
+      let temp = parseFloat(input);
+      let c, f, k;
 
-      // 3. Absolute zero check
-      if(celsius < -273.15){
-        errorBox.innerText = "❌ Temperature cannot be below Absolute Zero -273.15°C";
-        errorBox.style.display = 'block';
+      // 2. CONVERT TO CELSIUS FIRST
+      if (unit === 'C') c = temp;
+      if (unit === 'F') c = (temp - 32) * 5/9;
+      if (unit === 'K') c = temp - 273.15;
+
+      // 3. EDGE CASE: Absolute Zero
+      if (c < -273.15) {
+        errorMsg.innerText = '⚠️ Temperature cannot be below Absolute Zero -273.15°C';
+        errorMsg.style.display = 'block';
         return;
       }
 
-      // 4. Calculate all
-      let fahrenheit = (celsius * 9/5) + 32;
-      let kelvin = celsius + 273.15;
+      // 4. CONVERT TO ALL UNITS
+      f = (c * 9/5) + 32;
+      k = c + 273.15;
 
-      // 5. Display all results
-      document.getElementById('celsiusResult').innerText = celsius.toFixed(2);
-      document.getElementById('fahrenheitResult').innerText = fahrenheit.toFixed(2);
-      document.getElementById('kelvinResult').innerText = kelvin.toFixed(2);
-      resultsBox.style.display = 'block';
+      // 5. DISPLAY RESULTS
+      document.getElementById('celsiusResult').innerText = c.toFixed(2) + ' °C';
+      document.getElementById('fahrenheitResult').innerText = f.toFixed(2) + ' °F';
+      document.getElementById('kelvinResult').innerText = k.toFixed(2) + ' K';
+      
+      resultBox.style.display = 'block';
     }
   </script>
 </body>
