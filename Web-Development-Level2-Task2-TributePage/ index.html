@@ -3,79 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elon Musk | Tribute Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>TASK 2 | Tribute to Elon Musk - Visionary of the 21st Century</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--dark:#0f172a;--light:#f8fafc;--accent:#2563eb;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Poppins',sans-serif;line-height:1.7;color:#334155;background:var(--light);}
-    h1,h2,h3{font-family:'Playfair Display',serif;color:var(--dark);}
+    :root {
+      --bg: #050505; 
+      --section: #0F0F0F; 
+      --card: #161616;
+      --accent: #00ff88;
+      --text: #EAEAEA; 
+      --gray: #8A8A8A;
+      --heading-font: 'Playfair Display', serif; 
+      --body-font: 'Inter', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--body-font); line-height: 1.8; }
+    .container { max-width: 1000px; margin: auto; padding: 0 20px; }
     
-    .hero{background:var(--dark);color:#fff;text-align:center;padding:80px 20px;}
-    .hero h1{font-size:3rem;color:#fff;margin-bottom:10px;}
-    .hero p{font-size:1.2rem;color:#cbd5e1;}
-    .hero img{width:250px;height:250px;border-radius:50%;object-fit:cover;border:5px solid var(--accent);margin-top:30px;}
+    /* HEADER */
+    header { text-align: center; padding: 120px 20px 60px; }
+    header h1 { font-family: var(--heading-font); font-size: 4rem; color: var(--accent); letter-spacing: -1px; }
+    header .tagline { font-size: 1.3rem; color: var(--gray); margin-top: 15px; font-style: italic; max-width: 700px; margin: 15px auto 0; }
 
-    section{padding:60px 8%;max-width:1000px;margin:0 auto;}
-    .bio{background:#fff;}
-    .bio p{margin-bottom:15px;font-size:1.1rem;}
-    
-    .timeline{background:var(--light);}
-    .timeline h2{text-align:center;margin-bottom:40px;}
-    .timeline-list{list-style:none;}
-    .timeline-list li{background:#fff;margin-bottom:15px;padding:20px;border-left:4px solid var(--accent);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
-    .timeline-list span{font-weight:600;color:var(--accent);}
+    /* HERO IMAGE */
+    .hero-image {
+      background: var(--section); padding: 20px; border-radius: 16px;
+      border: 1px solid #222; margin-bottom: 80px;
+    }
+    .hero-image img {
+  width: 100%; 
+  max-height: 500px; 
+  object-fit: contain; /* CHANGED: shows full image, no crop */
+  object-position: top center; /* CHANGED: if we use cover, start from top */
+  background: #000; /* adds black bars if image is smaller */
+  display: block; 
+  margin: 0 auto; 
+  border-radius: 10px;
+}
+    .hero-image figcaption { color: var(--gray); margin-top: 15px; font-size: 0.9rem; text-align: center; }
 
-    .quote{background:var(--dark);color:#fff;text-align:center;}
-    .quote blockquote{font-size:1.5rem;font-style:italic;max-width:700px;margin:0 auto 20px;}
-    .quote cite{color:#94a3b8;}
+    /* SECTIONS */
+    section { margin-bottom: 80px; }
+    .section-title { 
+      font-family: var(--heading-font); font-size: 2.8rem; color: var(--text); 
+      margin-bottom: 30px; text-align: center;
+    }
+    .section-title span { color: var(--accent); }
+    .section-subtitle { color: var(--gray); text-align: center; max-width: 700px; margin: -10px auto 40px; }
 
-    footer{background:#020617;color:#94a3b8;text-align:center;padding:30px;}
-    footer a{color:var(--accent);text-decoration:none;}
+    /* 2 COLUMN LAYOUT */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .card { background: var(--card); padding: 35px; border-radius: 12px; border: 1px solid #222; }
 
-    @media(max-width:768px){
-      .hero h1{font-size:2.2rem;}
-      .hero img{width:180px;height:180px;}
-      section{padding:40px 5%;}
+    /* BIOGRAPHY */
+    .bio p { margin-bottom: 20px; font-size: 1.1rem; color: #D0D0D0; }
+    .bio .highlight { color: var(--accent); font-weight: 600; }
+
+    /* TIMELINE */
+    .timeline { position: relative; padding-left: 30px; border-left: 2px solid var(--accent); }
+    .timeline-item { margin-bottom: 30px; position: relative; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -39px; top: 5px;
+      width: 12px; height: 12px; border-radius: 50%; background: var(--accent);
+    }
+    .timeline-item .year { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+    .timeline-item .event { margin-top: 5px; color: #D0D0D0; }
+
+    /* IMPACT GRID */
+    .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+    .impact-card { background: var(--card); padding: 30px; border-radius: 12px; border-left: 4px solid var(--accent); }
+    .impact-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.3rem; }
+
+    /* QUOTE */
+    .quote-section { background: var(--section); padding: 60px 40px; border-radius: 16px; text-align: center; border: 1px solid #222; }
+    .quote { font-family: var(--heading-font); font-size: 2rem; font-style: italic; line-height: 1.5; }
+    .quote cite { display: block; margin-top: 20px; font-size: 1.1rem; color: var(--gray); font-style: normal; font-family: var(--body-font); }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 50px 20px; color: var(--gray); border-top: 1px solid #222; }
+
+    @media(max-width: 900px) {
+      header h1 { font-size: 2.8rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .section-title { font-size: 2.2rem; }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <h1>Elon Musk</h1>
-    <p>The man building the future of humanity</p>
-    <img src="https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=800&auto=format&fit=crop" alt="Elon Musk">
-  </header>
 
-  <section class="bio">
-    <h2>About Elon Musk</h2>
-    <p>Elon Musk is a business magnate, investor, and engineer. He is the founder, CEO, and chief engineer of SpaceX; CEO and product architect of Tesla, Inc.; and owner of X, formerly Twitter. He is widely regarded as one of the most influential entrepreneurs of the 21st century.</p>
-    <p>Born in South Africa, Musk moved to the United States to pursue his goals in sustainable energy and space exploration. His vision is to reduce global warming through sustainable energy production and consumption, and to reduce the risk of human extinction by establishing human colonization on Mars.</p>
-    <p>Through Tesla, he revolutionized the electric vehicle industry. Through SpaceX, he made space travel more affordable and reusable. His work pushes the boundaries of technology, AI, and transportation.</p>
-    <p>Musk's approach combines bold risk-taking with first-principles thinking, inspiring millions of engineers and entrepreneurs worldwide to think bigger and solve humanity's biggest problems.</p>
-  </section>
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <h1>Elon Musk</h1>
+      <p class="tagline">"I would like to die on Mars. Just not on impact."</p>
+    </header>
 
-  <section class="timeline">
-    <h2>Key Achievements & Timeline</h2>
-    <ul class="timeline-list">
-      <li><span>1995:</span> Co-founded Zip2, a web software company</li>
-      <li><span>1999:</span> Co-founded X.com, which became PayPal</li>
-      <li><span>2002:</span> Founded SpaceX to reduce space transportation costs</li>
-      <li><span>2004:</span> Joined Tesla Motors and led EV revolution</li>
-      <li><span>2016:</span> Founded Neuralink and The Boring Company</li>
-      <li><span>2022:</span> Acquired Twitter and renamed it X</li>
-      <li><span>2024:</span> SpaceX Starship makes major progress toward Mars missions</li>
-    </ul>
-  </section>
+    <!-- HERO IMAGE -->
+    <figure class="hero-image">
+      <img src="elonmusk.jpeg" alt="Elon Musk">
+      <figcaption>Elon Musk, Entrepreneur, Engineer, and Founder of SpaceX & CEO of Tesla</figcaption>
+    </figure>
 
-  <section class="quote">
-    <blockquote>"When something is important enough, you do it even if the odds are not in your favor."</blockquote>
-    <cite>— Elon Musk</cite>
-  </section>
+    <!-- BIOGRAPHY SECTION -->
+    <section class="bio">
+      <h2 class="section-title">The <span>Biography</span></h2>
+      <p class="section-subtitle">From a self-taught programmer in South Africa to the most influential entrepreneur of our time.</p>
+      
+      <div class="grid-2">
+        <div>
+          <p>Elon Reeve Musk was born on <span class="highlight">June 28, 1971</span> in Pretoria, South Africa. As a child, he was an avid reader and taught himself computer programming at the age of 12. He sold the code for a video game called "Blastar" for approximately $500.</p>
+          <p>At age 17, he left South Africa to avoid mandatory military service and moved to Canada. He attended Queen's University and later transferred to the University of Pennsylvania, where he earned two bachelor's degrees in Physics and Economics.</p>
+        </div>
+        <div>
+          <p>In 1995, he moved to California to start a PhD at Stanford but dropped out after two days to pursue his entrepreneurial dreams during the dot-com boom.</p>
+          <p>His core philosophy has always been to solve existential problems for humanity. This led him to found companies focused on <span class="highlight">sustainable energy, space exploration, artificial intelligence, and neural interfaces</span> — industries critical for the long-term survival and prosperity of civilization.</p>
+        </div>
+      </div>
+    </section>
 
-  <footer>
-    <p>Learn more about Elon Musk on <a href="https://en.wikipedia.org/wiki/Elon_Musk" target="_blank">Wikipedia</a></p>
-    <p style="margin-top:10px;">Tribute Page for OIBSIP Web Development Internship © 2026</p>
-  </footer>
+    <!-- TIMELINE SECTION -->
+    <section>
+      <h2 class="section-title">Key <span>Milestones</span></h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="year">1999</div>
+          <div class="event">Co-founded X.com, an online financial services company. It later became PayPal and was acquired by eBay for $1.5 billion in 2002.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2002</div>
+          <div class="event">Founded SpaceX with the goal of reducing space transportation costs to enable the colonization of Mars.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2004</div>
+          <div class="event">Joined Tesla Motors as Chairman and lead investor. Later became CEO and Product Architect, leading the electric vehicle revolution.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2016</div>
+          <div class="event">Founded Neuralink to develop brain-machine interfaces and The Boring Company to solve urban traffic congestion.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">2022</div>
+          <div class="event">Acquired Twitter for $44 billion and rebranded it to X, with a vision to create an "everything app".</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT SECTION -->
+    <section>
+      <h2 class="section-title">Global <span>Impact</span></h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <h3>SpaceX</h3>
+          <p>First private company to send astronauts to the ISS. Pioneered reusable rockets with Falcon 9, cutting launch costs by 10x. Starship aims to make humanity multiplanetary.</p>
+        </div>
+        <div class="impact-card">
+          <h3>Tesla</h3>
+          <p>Accelerated the world's transition to sustainable energy. Made EVs desirable and mainstream. Also leads in solar energy and battery storage with Tesla Energy.</p>
+        </div>
+        <div class="impact-card">
+          <h3>Neuralink & AI</h3>
+          <p>Working on merging human brains with AI to solve neurological conditions. Also co-founded OpenAI to ensure AGI benefits all of humanity.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE SECTION -->
+    <section class="quote-section">
+      <p class="quote">
+        "The first step is to establish that something is possible; then probability will occur."
+      </p>
+      <cite>- Elon Musk</cite>
+    </section>
+
+    <footer>
+      <p>A tribute page created for OIBSIP Task 2. Content compiled for educational purposes.</p>
+    </footer>
+
+  </div>
 </body>
 </html>
