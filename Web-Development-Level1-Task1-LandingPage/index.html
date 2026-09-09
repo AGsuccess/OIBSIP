@@ -3,75 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AuraTech | Smart Solutions</title>
+  <title>Nexora | Smart Solutions</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#2563eb;--accent:#f97316;--dark:#1e293b;--light:#f8fafc;--text:#334155;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Poppins',sans-serif;color:var(--text);background:var(--light);line-height:1.6;}
-    h1{font-size:3rem;font-weight:700;}h2{font-size:2.2rem;font-weight:700;}h3{font-size:1.3rem;font-weight:600;}p{font-size:1rem;}
-    .navbar{position:fixed;top:0;width:100%;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:20px 8%;box-shadow:0 2px 10px rgba(0,0,0,0.08);z-index:1000;}
-    .logo{font-size:1.5rem;font-weight:700;color:var(--dark);}.logo span{color:var(--primary);}
-    .navbar nav{display:flex;gap:25px;}.navbar a{color:var(--dark);text-decoration:none;font-weight:600;transition:0.3s;}
-    .navbar a:hover{color:var(--primary);}
-    .hero{padding:160px 8% 100px;text-align:center;background:linear-gradient(135deg,var(--primary),#1d4ed8);color:#fff;}
-    .hero .subheadline{font-size:1.2rem;margin:20px auto 30px;max-width:600px;opacity:0.9;}
-    .btn{background:var(--accent);color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block;transition:0.3s;}
-    .btn:hover{background:#ea580c;transform:translateY(-3px);}
-    section{padding:80px 8%;}.section-title{text-align:center;margin-bottom:50px;color:var(--dark);}
-    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
-    .feature-box{background:#fff;padding:30px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);}
-    .about{background:#fff;}.about-content{max-width:800px;margin:0 auto;text-align:center;}.about-content p{margin-bottom:15px;}
-    .testimonial-grid{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;}
-    .testimonial-card{background:var(--primary);color:#fff;padding:30px;border-radius:12px;max-width:400px;}
-    .testimonial-card h4{margin-top:15px;color:var(--accent);}
-    footer{background:var(--dark);color:#fff;padding:50px 8% 20px;}
-    .footer-content{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;margin-bottom:30px;}
-    footer a{color:#fff;text-decoration:none;}footer a:hover{color:var(--accent);}
-    .copyright{text-align:center;border-top:1px solid #334155;padding-top:20px;font-size:0.9rem;}
-    @media(max-width:768px){.navbar{flex-direction:column;gap:15px;padding:15px 5%;}h1{font-size:2.2rem;}.hero{padding:140px 5% 80px;}section{padding:60px 5%;}.footer-content{flex-direction:column;text-align:center;}}
+    :root {
+      --bg: #0a0a0a;
+      --card: #111;
+      --accent: #00ff88; /* Green */
+      --text: #ffffff;
+      --gray: #a0a0a0;
+      --font: 'Poppins', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed; top: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 8%; background: rgba(10,10,10,0.8); backdrop-filter: blur(15px);
+      border-bottom: 1px solid #222; z-index: 1000;
+    }
+    .logo { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+    .logo span { color: var(--accent); }
+    .navbar nav { display: flex; gap: 30px; }
+    .navbar a { color: var(--text); text-decoration: none; font-weight: 500; transition: 0.3s; }
+    .navbar a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 160px 8% 100px;
+      background: radial-gradient(circle at top, #00ff8820, transparent 70%);
+    }
+    .hero h1 { font-size: 3.2rem; font-weight: 700; line-height: 1.2; }
+    .hero h1 span { color: var(--accent); }
+    .hero .subheadline { font-size: 1.2rem; margin: 20px auto 30px; max-width: 600px; color: var(--gray); }
+    .btn {
+      background: var(--accent); color: #000; padding: 14px 32px; border-radius: 8px;
+      text-decoration: none; font-weight: 600; display: inline-block; transition: 0.3s;
+      box-shadow: 0 0 20px rgba(0,255,136,0.3);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 0 35px rgba(0,255,136,0.6); }
+
+    /* SECTIONS */
+    section { padding: 100px 8%; }
+    .section-title { text-align: center; margin-bottom: 50px; font-size: 2.2rem; }
+    .section-title span { color: var(--accent); }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
+    }
+    .feature-box {
+      background: var(--card); padding: 35px; border-radius: 12px;
+      border: 1px solid #222; transition: 0.3s; text-align: center;
+    }
+    .feature-box:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 0 25px rgba(0,255,136,0.1); }
+    .feature-box .icon { font-size: 2.5rem; margin-bottom: 15px; }
+
+    /* ABOUT */
+    .about { background: var(--card); border-top: 1px solid #222; border-bottom: 1px solid #222; }
+    .about-content { max-width: 800px; margin: 0 auto; text-align: center; }
+    .about-content p { margin-bottom: 15px; color: var(--gray); }
+
+    /* TESTIMONIALS */
+    .testimonial-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+    .testimonial-card {
+      background: var(--card); color: var(--text); padding: 30px; border-radius: 12px;
+      max-width: 400px; border: 1px solid #222; border-left: 3px solid var(--accent);
+    }
+    .testimonial-card h4 { margin-top: 15px; color: var(--accent); }
+
+    /* FOOTER */
+    footer { background: #050505; color: var(--gray); padding: 50px 8% 20px; border-top: 1px solid #222; }
+    .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-bottom: 30px; }
+    footer h3 { color: var(--text); margin-bottom: 10px; }
+    footer a { color: var(--gray); text-decoration: none; transition: 0.3s; }
+    footer a:hover { color: var(--accent); }
+    .copyright { text-align: center; border-top: 1px solid #222; padding-top: 20px; font-size: 0.9rem; }
+
+    /* RESPONSIVE */
+    @media(max-width: 768px) {
+      .navbar { flex-direction: column; gap: 15px; padding: 15px 5%; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero { padding: 140px 5% 80px; }
+      section { padding: 60px 5%; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- NAVBAR -->
   <header class="navbar">
-    <div class="logo">Aura<span>Tech</span></div>
-    <nav><a href="#home">Home</a><a href="#features">Features</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <div class="logo">Nexo<span>ra</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
+
+  <!-- HERO -->
   <section id="home" class="hero">
     <div class="hero-content">
-      <h1>Build Smarter. Scale Faster.</h1>
-      <p class="subheadline">The all-in-one platform to launch, manage, and grow your business online.</p>
+      <h1>Build <span>Smarter</span>. Scale <span>Faster</span>.</h1>
+      <p class="subheadline">The all-in-one platform to launch, manage, and grow your business online with modern tech.</p>
       <a href="#contact" class="btn">Get Started Free</a>
     </div>
   </section>
+
+  <!-- FEATURES -->
   <section id="features" class="features">
-    <h2 class="section-title">Powerful Features</h2>
+    <h2 class="section-title">Powerful <span>Features</span></h2>
     <div class="features-grid">
-      <div class="feature-box"><h3>Fast Performance</h3><p>Optimized code and CDN delivery ensures your site loads in under 2 seconds.</p></div>
-      <div class="feature-box"><h3>Fully Responsive</h3><p>Looks perfect on desktop, tablet, and mobile devices of all sizes.</p></div>
-      <div class="feature-box"><h3>Secure & Reliable</h3><p>Bank-level security with 99.9% uptime guarantee for peace of mind.</p></div>
+      <div class="feature-box">
+        <div class="icon">⚡</div>
+        <h3>Fast Performance</h3>
+        <p>Optimized code and CDN delivery ensures your site loads in under 2 seconds.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">📱</div>
+        <h3>Fully Responsive</h3>
+        <p>Looks perfect on desktop, tablet, and mobile devices of all sizes.</p>
+      </div>
+      <div class="feature-box">
+        <div class="icon">🔒</div>
+        <h3>Secure & Reliable</h3>
+        <p>Bank-level security with 99.9% uptime guarantee for peace of mind.</p>
+      </div>
     </div>
   </section>
+
+  <!-- ABOUT -->
   <section id="about" class="about">
-    <h2 class="section-title">About AuraTech</h2>
+    <h2 class="section-title">About <span>Nexora</span></h2>
     <div class="about-content">
       <p>We are a team of designers and developers dedicated to helping small businesses succeed online. Since 2023, we’ve launched over 500 websites and helped our clients increase revenue by an average of 40%.</p>
       <p>Our mission is simple: Make powerful web technology accessible to everyone.</p>
     </div>
   </section>
+
+  <!-- TESTIMONIALS -->
   <section class="testimonials">
-    <h2 class="section-title">What Our Clients Say</h2>
+    <h2 class="section-title">What Our <span>Clients</span> Say</h2>
     <div class="testimonial-grid">
-      <div class="testimonial-card"><p>"AuraTech helped us launch in 2 weeks. Sales doubled in the first month!"</p><h4>- Sarah J, CEO of BloomCo</h4></div>
-      <div class="testimonial-card"><p>"The support team is amazing. Responsive design works flawlessly on mobile."</p><h4>- Michael T, Founder</h4></div>
+      <div class="testimonial-card">
+        <p>"Nexora helped us launch in 2 weeks. Sales doubled in the first month!"</p>
+        <h4>- Sarah J, CEO of BloomCo</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>"The support team is amazing. Responsive design works flawlessly on mobile."</p>
+        <h4>- Michael T, Founder</h4>
+      </div>
     </div>
   </section>
+
+  <!-- FOOTER -->
   <footer id="contact">
     <div class="footer-content">
-      <div><h3>AuraTech</h3><p>contact@auratech.com</p><p>+234 800 000 0000</p></div>
-      <div><h3>Follow Us</h3><a href="#">LinkedIn</a> | <a href="#">Twitter</a> | <a href="#">GitHub</a></div>
+      <div>
+        <h3>Nexora</h3>
+        <p>contact@nexora.com</p>
+        <p>+234 816 363 5997</p>
+      </div>
+      <div>
+        <h3>Follow Us</h3>
+        <a href="#">LinkedIn</a> | <a href="#">Twitter</a> | <a href="#">GitHub</a>
+      </div>
     </div>
-    <p class="copyright">© 2026 AuraTech. OIBSIP Web Development Internship</p>
+    <p class="copyright">© 2026 Nexora. Built for OIBSIP Web Development Internship</p>
   </footer>
+
 </body>
 </html>
