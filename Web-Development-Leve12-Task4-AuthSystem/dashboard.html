@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TASK 4 | Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0a0a0a; --card:#111; --accent:#00ff88; --text:#fff; --gray:#8A8A8A; --font:'Poppins',sans-serif; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font);}
+    header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:var(--card);border-bottom:1px solid #222;}
+    header h1{color:var(--accent);}
+    .btn-logout{padding:10px 20px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;}
+    .container{max-width:1000px;margin:40px auto;padding:20px;}
+    .welcome-card{background:var(--card);padding:40px;border-radius:16px;border:1px solid #222;text-align:center;}
+    .welcome-card h2{font-size:2.5rem;margin-bottom:15px;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SecureDash</h1>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </header>
+  <div class="container">
+    <div class="welcome-card">
+      <h2 id="welcomeText">Welcome!</h2>
+      <p>This is a protected page. Only logged-in users can see this.</p>
+      <p style="color:var(--gray); margin-top:20px;">Your session is stored in sessionStorage and will clear when you close the tab.</p>
+    </div>
+  </div>
+
+<script>
+  // PROTECTED ROUTE CHECK
+  const session = JSON.parse(sessionStorage.getItem('oibsip_session'));
+  if(!session) {
+    alert("You must login first!");
+    window.location.href = 'auth.html';
+  } else {
+    document.getElementById('welcomeText').innerText = `Welcome, ${session.username}!`;
+  }
+
+  function logout() {
+    sessionStorage.removeItem('oibsip_session'); // CLEAR SESSION
+    window.location.href = 'auth.html';
+  }
+</script>
+</body>
+</html>
