@@ -20,5 +20,3 @@ Open `index.html` in any web browser.
 ## Tech Stack
 HTML5, CSS3, Vanilla JavaScript, Web Crypto API, localStorage
 
-## Note
-This is a front-end demo. For production, use a backend with proper security.
