@@ -17,5 +17,3 @@ Open `index.html` in any web browser.
 ## Tech Stack
 HTML5, CSS3, Google Fonts
 
-## Sources
-Content paraphrased from Wikipedia. Image from Unsplash.
